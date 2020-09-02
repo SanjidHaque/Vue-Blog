@@ -22,10 +22,7 @@ const actions = {
 const mutations = {
     newCategory: (state, name) => state.categories.unshift(name),
     updateCategory: (state, payload ) => {
-
-        let getCategory = state.categories.find(x => x === 'Top');
-        getCategory = 'sa';
-       // state.categories[payload.index] = 'ksksk';
+        state.categories.splice(payload.index, 1, payload.title);
     },
     removeCategory: (state, index) => {
         state.categories.splice(index, 1)

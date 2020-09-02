@@ -29,10 +29,7 @@
 
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn :disabled="!valid"
-                               class="v-btn-save"
-                               text
-                               @click="submitUpdateCategoryForm">Save</v-btn>
+                        <v-btn :disabled="!valid" class="v-btn-save" text @click="submitUpdateCategoryForm">Save</v-btn>
                         <v-btn class="v-btn-close" text @click="$emit('close', false)">Close</v-btn>
                     </v-card-actions>
 
@@ -44,6 +41,8 @@
 
 
 <script>
+    import category from "../store/modules/category";
+
     export default {
         name: 'UpdateCategoryDialog',
         props: ['value', 'editMode', 'headerText', 'category'],
@@ -58,17 +57,18 @@
             }
         },
         created() {
-
+            if (this.category !== undefined) {
+                this.categoryTitle = this.category;
+            }
         },
         methods: {
             submitUpdateCategoryForm() {
-
                 if (!this.editMode) {
+                    this.$emit('save', this.categoryTitle);
                     this.$refs.form.reset();
+                } else {
+                    this.$emit('save', this.categoryTitle);
                 }
-                console.log(this.categoryTitle);
-                this.$emit('save', this.categoryTitle);
-
             }
         }
     }

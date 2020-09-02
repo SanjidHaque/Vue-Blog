@@ -69,9 +69,7 @@
 
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn :disabled="!valid" class="v-btn-save" text
-                               @click="submitUpdatePostForm">Save
-                        </v-btn>
+                        <v-btn :disabled="!valid" class="v-btn-save" text @click="submitUpdatePostForm">Save</v-btn>
                         <v-btn class="v-btn-close" text @click="$emit('close', false)">Close</v-btn>
                     </v-card-actions>
 
