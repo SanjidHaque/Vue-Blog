@@ -6,13 +6,11 @@ const state = {
             new Post(1, 'Economy', 'This is a good news', ['Important', 'Stared']),
             new Post(2, 'World', 'This is a good news', ['Top', 'Stared']),
             new Post(3, 'Inside', 'This is a good news', ['Old'])
-        ],
-    post: null
+        ]
 };
 
 const getters = {
-    getPosts : (state) => state.posts,
-    getPost : (state) => state.post
+    getPosts : (state) => state.posts
 };
 
 const actions = {
@@ -24,15 +22,11 @@ const actions = {
     },
     deletePost({ commit }, index) {
         commit('removePost', index);
-    },
-    sharePost({ commit }, post) {
-        commit('shareSinglePost', post);
-    },
+    }
 };
 
 const mutations = {
     newPost: (state, post) => state.posts.unshift(post),
-    shareSinglePost: (state, post) => state.post = post,
     updatePost: (state, post) => {
         const getPost = state.posts.find(x => x.id === post.id);
 
