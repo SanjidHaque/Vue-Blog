@@ -49,7 +49,8 @@
                                                 required
                                                 multiple>
                                             <template v-slot:prepend-item>
-                                                <v-list-item>
+                                                <v-list-item v-ripple="{ center: true }">
+
                                                     <v-list-item-content>
                                                         <v-list-item-title
                                                                 @click="openAddCategoryDialog"
