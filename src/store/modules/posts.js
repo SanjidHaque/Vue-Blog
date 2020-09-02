@@ -22,8 +22,8 @@ const actions = {
     editPost({ commit }, post) {
         commit('updatePost', post);
     },
-    deletePost({ commit }, id) {
-        commit('removePost', id);
+    deletePost({ commit }, index) {
+        commit('removePost', index);
     },
     sharePost({ commit }, post) {
         commit('shareSinglePost', post);
@@ -42,8 +42,8 @@ const mutations = {
             getPost.categories = post.categories;
         }
     },
-    removePost: (state, id) => {
-        state.posts.splice(state.posts.indexOf(id), 1)
+    removePost: (state, index) => {
+        state.posts.splice(index, 1);
     }
 };
 

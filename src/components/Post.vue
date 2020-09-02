@@ -29,7 +29,7 @@
                         <v-btn @click="openEditPostDialog()" text>
                             <v-icon>mdi-pencil</v-icon>
                         </v-btn>
-                        <v-btn text>
+                        <v-btn @click="onDeletePost()" text>
                             <v-icon>mdi-delete</v-icon>
                         </v-btn>
                     </v-card-actions>
@@ -45,7 +45,7 @@
 
     export default {
         name: 'Post',
-        props: ['post'],
+        props: ['post','index'],
         components: { UpdatePostDialog },
         data() {
             return {
@@ -55,7 +55,7 @@
             }
         },
         methods: {
-            ...mapActions(['editPost']),
+            ...mapActions(['editPost', 'deletePost']),
             openEditPostDialog() {
                 this.dialog = true;
             },
@@ -65,6 +65,9 @@
             onEditPost(post) {
                 this.dialog = false;
                 this.editPost(post);
+            },
+            onDeletePost() {
+                this.deletePost(this.index);
             }
         }
     }

@@ -18,8 +18,8 @@
                 v-model="dialog"/>
 
         <div class="row" style="padding-top: 20px;">
-            <div class="col-12 col-sm-4" v-for="post in getPosts" v-bind:key="post.id">
-                <Post v-bind:post="post"/>
+            <div class="col-12 col-sm-4" v-for="(post, index) in getPosts" v-bind:key="post.id">
+                <Post v-bind:post="post" v-bind:index="index" />
 
             </div>
         </div>
