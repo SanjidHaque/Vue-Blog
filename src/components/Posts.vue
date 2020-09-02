@@ -17,9 +17,17 @@
                 v-on:save="onAddPost"
                 v-model="dialog"/>
 
-        <div class="row" style="padding-top: 20px;">
+        <div v-if="getPosts.length !== 0" class="row" style="padding-top: 20px;">
             <div class="col-12 col-sm-4" v-for="(post, index) in getPosts" v-bind:key="post.id">
                 <Post v-bind:post="post" v-bind:index="index" />
+
+            </div>
+        </div>
+
+        <div v-else class="row" style="text-align: center; font-weight: 500;">
+            <div class="col-12">
+
+                No post is available, it's easy to create one.
 
             </div>
         </div>

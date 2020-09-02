@@ -79,6 +79,7 @@
             </v-dialog>
         </v-row>
         <UpdateCategoryDialog
+                v-bind:headerText="'Add New Category'"
                 v-on:save="onAddCategory"
                 v-on:close="closeAddCategoryDialog" v-model="dialog"/>
     </v-form>
@@ -99,7 +100,7 @@
                 dialog: false,
                 valid: false,
                 nameRules: [
-                    v => !!v || 'This field is required!',
+                    v => !!v || 'This field is required!'
                 ],
                 title: '',
                 description: '',
