@@ -11,6 +11,8 @@
         </div>
 
         <UpdatePostDialog
+                v-bind:headerText="headerText"
+                v-bind:editMode="editMode"
                 v-on:close="closeAddPostDialog"
                 v-on:save="onAddPost"
                 v-model="dialog"/>
@@ -24,7 +26,6 @@
     </div>
 </template>
 
-
 <script>
     import {mapGetters, mapActions} from 'vuex';
     import UpdatePostDialog from '../dialogs/UpdatePostDialog';
@@ -36,16 +37,18 @@
         computed: mapGetters(['getPosts']),
         data() {
             return {
-                dialog: false
+                dialog: false,
+                editMode: false,
+                headerText: 'Add New Post'
             }
         },
         methods: {
-            ...mapActions(['addPost', 'sharePost']),
+            ...mapActions(['addPost']),
             openAddPostDialog() {
                 this.dialog = true;
             },
             closeAddPostDialog () {
-             this.dialog = false;
+                this.dialog = false;
             },
             onAddPost(post) {
                 this.dialog = false;
@@ -55,10 +58,8 @@
     }
 </script>
 
+
 <style scoped>
-    .v-card__actions {
-        display: block;
-    }
     .v-btn-add-post {
         background-color: #42b983!important;
         color: #fff!important;

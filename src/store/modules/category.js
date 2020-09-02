@@ -1,6 +1,6 @@
 
 const state = {
-    categories: ['Top', 'Important', 'Stared', 'Rated']
+    categories: ['Top', 'Important', 'Stared', 'Rated', 'Old']
 };
 
 const getters = {

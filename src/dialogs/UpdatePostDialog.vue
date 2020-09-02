@@ -1,12 +1,12 @@
 <template>
     <v-form ref="form"
-            v-model="valid" laz>
+            v-model="valid">
         <v-row justify="center">
             <v-dialog v-model="value" persistent max-width="700px">
 
                 <v-card>
                     <v-card-title>
-                        <span>Add New Post</span>
+                        <span> {{ headerText }} </span>
                     </v-card-title>
 
                     <v-card-text>
@@ -69,7 +69,9 @@
 
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn :disabled="!valid" class="v-btn-save" text @click="submitAddPostForm">Save</v-btn>
+                        <v-btn :disabled="!valid" class="v-btn-save" text
+                               @click="submitUpdatePostForm">Save
+                        </v-btn>
                         <v-btn class="v-btn-close" text @click="$emit('close', false)">Close</v-btn>
                     </v-card-actions>
 
@@ -89,13 +91,9 @@
 
     export default {
         name: 'UpdatePostDialog',
-        computed: mapGetters(['getCategories']),
-        props: {
-            value: Boolean
-        },
+        computed: mapGetters(['getCategories', 'getPost']),
+        props: ['value', 'editMode', 'headerText', 'post'],
         components: {UpdateCategoryDialog},
-        created() {
-        },
         data() {
             return {
                 dialog: false,
@@ -108,16 +106,37 @@
                 categories: null
             }
         },
+        created() {
+            if (this.post !== undefined) {
+                this.initialPostObject();
+            }
+        },
         methods: {
-            ...mapActions(['addCategory']),
-            submitAddPostForm() {
-                var post = new Post(
-                    Date.now(),
-                    this.title,
-                    this.description,
-                    this.categories
-                );
-                this.$refs.form.reset();
+            ...mapActions(['addCategory', 'editPost']),
+            initialPostObject() {
+                this.title = this.post.title;
+                this.description = this.post.description;
+                this.categories = this.post.categories;
+            },
+            submitUpdatePostForm() {
+                var post;
+                if (this.editMode) {
+                    post = new Post(
+                        this.post.id,
+                        this.title,
+                        this.description,
+                        this.categories
+                    );
+
+                } else {
+                    post = new Post(
+                        Date.now(),
+                        this.title,
+                        this.description,
+                        this.categories
+                    );
+                    this.$refs.form.reset();
+                }
                 this.$emit('save', post);
             },
             onAddCategory(title) {
@@ -130,7 +149,6 @@
             closeAddCategoryDialog() {
                 this.dialog = false;
             }
-
         }
     }
 </script>

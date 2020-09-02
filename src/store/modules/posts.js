@@ -34,10 +34,13 @@ const mutations = {
     newPost: (state, post) => state.posts.unshift(post),
     shareSinglePost: (state, post) => state.post = post,
     updatePost: (state, post) => {
-        const getPost = state.posts.find(x => x.Id === post.Id);
-        getPost.title = post.title;
-        getPost.description = post.description;
-        getPost.categories = post.categories;
+        const getPost = state.posts.find(x => x.id === post.id);
+
+        if (getPost !== undefined) {
+            getPost.title = post.title;
+            getPost.description = post.description;
+            getPost.categories = post.categories;
+        }
     },
     removePost: (state, id) => {
         state.posts.splice(state.posts.indexOf(id), 1)

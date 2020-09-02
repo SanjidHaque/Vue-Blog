@@ -1,6 +1,13 @@
 <template>
     <div style="padding-top: 20px;">
 
+        <UpdatePostDialog
+                v-bind:post="post"
+                v-bind:editMode="editMode"
+                v-bind:headerText="headerText"
+                v-on:close="closeEditPostDialog"
+                v-on:save="onEditPost"
+                v-model="dialog"/>
                 <v-card
                         class="mx-auto"
                         max-width="344">
@@ -34,11 +41,16 @@
 
 <script>
     import {mapActions} from 'vuex';
+    import UpdatePostDialog from '../dialogs/UpdatePostDialog';
+
     export default {
         name: 'Post',
         props: ['post'],
+        components: { UpdatePostDialog },
         data() {
             return {
+                headerText: 'Edit Post',
+                editMode: true,
                 dialog: false
             }
         },
