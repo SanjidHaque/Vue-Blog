@@ -1,4 +1,4 @@
-# vue-product-shop
+# Vue Blog
 
 ## Project setup
 ```
