@@ -4,7 +4,7 @@ const state = {
 };
 
 const getters = {
-    allCategory: (state) => state.categories
+    getCategories: (state) => state.categories
 };
 
 const actions = {

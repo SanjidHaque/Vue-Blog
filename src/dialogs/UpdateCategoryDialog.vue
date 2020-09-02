@@ -16,7 +16,7 @@
                                 <div class="col-12">
                                     <v-text-field
                                             :rules="nameRules"
-                                            v-model="name"
+                                            v-model="title"
                                             outlined
                                             label="Name*"
                                             required>
@@ -41,7 +41,6 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex';
-
     export default {
         name: 'UpdateCategoryDialog',
         props: {
@@ -53,15 +52,13 @@
                 nameRules: [
                     v => !!v || 'This field is required!',
                 ],
-                name: ''
+                title: ''
             }
         },
         methods: {
-            ...mapActions(['addCategory']),
             submitAddCategoryForm() {
-                this.addCategory(this.name);
+                this.$emit('save', this.title);
                 this.$refs.form.reset();
-                this.$emit('close', false);
             }
 
         }

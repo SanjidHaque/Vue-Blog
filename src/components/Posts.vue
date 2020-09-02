@@ -11,38 +11,13 @@
         </div>
 
         <UpdatePostDialog
-                v-on:close="closeDialog"
+                v-on:close="closeAddPostDialog"
+                v-on:save="onAddPost"
                 v-model="dialog"/>
+
         <div class="row" style="padding-top: 20px;">
-            <div class="col-12 col-sm-4" v-for="post in allPost" v-bind:key="post.id">
-
-                <v-card
-                        class="mx-auto"
-                        max-width="344">
-                    <v-card-text>
-                        <p class="display-1 text--primary">
-                            {{ post.title }}
-                        </p>
-
-                        <div class="text--primary">
-                            {{ post.description }}
-                        </div>
-
-                        <span v-for="category in post.categories" v-bind:key="category">
-                            {{ category }}
-                        </span>
-                    </v-card-text>
-
-                    <v-card-actions style="text-align: right;">
-                        <v-btn text>
-                            <v-icon>mdi-pencil</v-icon>
-                        </v-btn>
-                        <v-btn text>
-                            <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                    </v-card-actions>
-
-                </v-card>
+            <div class="col-12 col-sm-4" v-for="post in getPosts" v-bind:key="post.id">
+                <Post v-bind:post="post"/>
 
             </div>
         </div>
@@ -53,25 +28,29 @@
 <script>
     import {mapGetters, mapActions} from 'vuex';
     import UpdatePostDialog from '../dialogs/UpdatePostDialog';
-    import Post from '../models/post';
+    import Post from './Post';
 
     export default {
         name: 'Posts',
-        components: { UpdatePostDialog },
-        computed: mapGetters(['allPost']),
+        components: { UpdatePostDialog, Post },
+        computed: mapGetters(['getPosts']),
         data() {
             return {
                 dialog: false
             }
         },
         methods: {
+            ...mapActions(['addPost', 'sharePost']),
             openAddPostDialog() {
                 this.dialog = true;
             },
-            closeDialog () {
+            closeAddPostDialog () {
              this.dialog = false;
+            },
+            onAddPost(post) {
+                this.dialog = false;
+                this.addPost(post);
             }
-
         }
     }
 </script>

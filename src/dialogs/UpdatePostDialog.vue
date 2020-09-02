@@ -1,50 +1,50 @@
 <template>
     <v-form ref="form"
             v-model="valid" laz>
-    <v-row justify="center">
-        <v-dialog v-model="value" persistent max-width="700px">
+        <v-row justify="center">
+            <v-dialog v-model="value" persistent max-width="700px">
 
-            <v-card>
-                <v-card-title>
-                    <span>Add New Post</span>
-                </v-card-title>
+                <v-card>
+                    <v-card-title>
+                        <span>Add New Post</span>
+                    </v-card-title>
 
-                <v-card-text>
-                    <v-container>
+                    <v-card-text>
+                        <v-container>
 
-                        <div class="row">
-                            <div class="col-12">
-                                <v-text-field
-                                        :rules="nameRules"
-                                        v-model="title"
-                                        outlined
-                                        label="Title*"
-                                        required>
-                                </v-text-field>
+                            <div class="row">
+                                <div class="col-12">
+                                    <v-text-field
+                                            :rules="nameRules"
+                                            v-model="title"
+                                            outlined
+                                            label="Title*"
+                                            required>
+                                    </v-text-field>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-12">
-                                <v-textarea
-                                        :rules="nameRules"
-                                        v-model="description"
-                                        outlined
-                                        label="Description*"
-                                        rows="3">
-                                </v-textarea>
+                            <div class="row">
+                                <div class="col-12">
+                                    <v-textarea
+                                            :rules="nameRules"
+                                            v-model="description"
+                                            outlined
+                                            label="Description*"
+                                            rows="3">
+                                    </v-textarea>
+                                </div>
                             </div>
-                        </div>
 
 
-                        <div class="row">
-                            <div class="col-12">
-                                <template>
+                            <div class="row">
+                                <div class="col-12">
+                                    <template>
                                         <v-select
                                                 v-model="categories"
                                                 outlined
                                                 :rules="nameRules"
-                                                :items="allCategory"
+                                                :items="getCategories"
                                                 label="Select Category"
                                                 required
                                                 multiple>
@@ -54,29 +54,31 @@
                                                         <v-list-item-title
                                                                 @click="openAddCategoryDialog"
                                                                 style="cursor: pointer; font-weight:500;">
-                                                           Add New Category
+                                                            Add New Category
                                                         </v-list-item-title>
                                                     </v-list-item-content>
                                                 </v-list-item>
                                             </template>
                                         </v-select>
-                                </template>
+                                    </template>
+                                </div>
                             </div>
-                        </div>
 
-                    </v-container>
-                </v-card-text>
+                        </v-container>
+                    </v-card-text>
 
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn :disabled="!valid" class="v-btn-save" text @click="submitAddPostForm">Save</v-btn>
-                    <v-btn class="v-btn-close" text @click="$emit('close', false)">Close</v-btn>
-                </v-card-actions>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn :disabled="!valid" class="v-btn-save" text @click="submitAddPostForm">Save</v-btn>
+                        <v-btn class="v-btn-close" text @click="$emit('close', false)">Close</v-btn>
+                    </v-card-actions>
 
-            </v-card>
-        </v-dialog>
-    </v-row>
-        <UpdateCategoryDialog v-on:close="closeDialog" v-model="dialog"/>
+                </v-card>
+            </v-dialog>
+        </v-row>
+        <UpdateCategoryDialog
+                v-on:save="onAddCategory"
+                v-on:close="closeAddCategoryDialog" v-model="dialog"/>
     </v-form>
 </template>
 
@@ -87,11 +89,13 @@
 
     export default {
         name: 'UpdatePostDialog',
-        computed: mapGetters(['allCategory']),
+        computed: mapGetters(['getCategories']),
         props: {
             value: Boolean
         },
-        components:{ UpdateCategoryDialog },
+        components: {UpdateCategoryDialog},
+        created() {
+        },
         data() {
             return {
                 dialog: false,
@@ -105,7 +109,7 @@
             }
         },
         methods: {
-            ...mapActions(['addPost']),
+            ...mapActions(['addCategory']),
             submitAddPostForm() {
                 var post = new Post(
                     Date.now(),
@@ -113,15 +117,17 @@
                     this.description,
                     this.categories
                 );
-
-                this.addPost(post);
                 this.$refs.form.reset();
-                this.$emit('close', false);
+                this.$emit('save', post);
+            },
+            onAddCategory(title) {
+                this.dialog = false;
+                this.addCategory(title);
             },
             openAddCategoryDialog() {
                 this.dialog = true;
             },
-            closeDialog () {
+            closeAddCategoryDialog() {
                 this.dialog = false;
             }
 
@@ -133,9 +139,10 @@
     .v-btn-save {
         text-transform: none;
         background-color: #42b983;
-        color: #fff!important;
+        color: #fff !important;
     }
-    .v-btn-close{
+
+    .v-btn-close {
         text-transform: none;
     }
 </style>
